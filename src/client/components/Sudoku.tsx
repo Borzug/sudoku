@@ -2,7 +2,7 @@ import * as React from 'react';
 // import { bindActionCreators } from 'redux';
 // import { connect } from 'react-redux';
 
-export class App extends React.Component {
+export class Sudoku extends React.Component {
     render() {
         return <div>App!</div>;
     }

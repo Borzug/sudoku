@@ -1,11 +1,12 @@
 const webpack = require('webpack');
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: './src/client/index.tsx',
     output: {
-        filename: 'bundle.js',
+        filename: 'dist/bundle.js',
         path: path.resolve(__dirname, 'dist'),
     },
     module: {
@@ -33,5 +34,13 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.tsx', '.js', 'json'],
     },
-    plugins: [new CleanWebpackPlugin(['dist']), new webpack.HotModuleReplacementPlugin()],
+    plugins: [
+        new CleanWebpackPlugin(['dist']),
+        new webpack.HotModuleReplacementPlugin(),
+        new HtmlWebpackPlugin({
+            inject: true,
+            title: 'Sudoku',
+            template: './index.html',
+        }),
+    ],
 };
