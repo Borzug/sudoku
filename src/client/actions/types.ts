@@ -19,7 +19,6 @@ export interface CheckSolutionAction {
 
 export interface CheckSolutionSuccessfulAction {
     type: 'CHECK_SOLUTION_SUCCESSFUL';
-    result: string;
 }
 
 export interface GetCellValueAction {

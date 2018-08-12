@@ -37,12 +37,12 @@ export const actionCreators = {
             return;
         }
 
-        if (state.currentGame && state.focusedCellIndex !== null) {
+        if (state.currentGame) {
             fetch(getUrl(GET_CELL_VALUE), {
                 method: 'POST',
                 headers: requestHeaders,
                 body: JSON.stringify({
-                    gameId: state.currentGame!.id,
+                    gameId: state.currentGame.id,
                     cellIndex: state.focusedCellIndex
                 })
             })
@@ -61,29 +61,27 @@ export const actionCreators = {
     checkSolutionAction: (): ThunkedAction<Action> => (dispatch, getState: () => Store) => {
         dispatch({ type: 'CHECK_SOLUTION' });
 
-        const game = getState().currentGame;
-        const gameId = game ? game.id : null;
+        const currentGame = getState().currentGame;
 
         fetch(getUrl(CHECK_SOLUTION), {
             headers: requestHeaders,
             method: 'POST',
-            body: JSON.stringify(game)
+            body: JSON.stringify(currentGame)
         })
             .then(response => response.json())
             .then((result: SolutionCheckResult) => {
-                const currentGame = getState().currentGame;
                 let message = '';
-                if (currentGame && currentGame.id === gameId) {
-                    if (result.isValid && result.isComplete) {
-                        message = i18next.t('messages.solved');
-                    } else if (result.isValid && !result.isComplete) {
-                        message = i18next.t('messages.valid');
-                    } else {
-                        message = i18next.t('messages.invalid');
-                    }
 
-                    dispatch({ type: 'CHECK_SOLUTION_SUCCESSFUL', result: message });
+                if (result.isValid && result.isComplete) {
+                    message = i18next.t('messages.solved');
+                } else if (result.isValid && !result.isComplete) {
+                    message = i18next.t('messages.valid');
+                } else {
+                    message = i18next.t('messages.invalid');
                 }
+
+                dispatch({ type: 'CHECK_SOLUTION_SUCCESSFUL' });
+                dispatch({ type: 'SET_MESSAGE', message });
             })
             .catch(() => dispatch({ type: 'FETCHING_FAILED' }));
     }

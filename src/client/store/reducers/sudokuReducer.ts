@@ -35,7 +35,7 @@ export const sudokuReducer: SudokuReducer<Store> = (state: Store, action: Action
             return { ...state, message: i18next.t('messages.checkingBoard'), isFetching: true };
 
         case 'CHECK_SOLUTION_SUCCESSFUL':
-            return { ...state, message: action.result, isFetching: false };
+            return { ...state, isFetching: false };
 
         case 'SELECT_CELL':
             if (state.initialBoard && state.initialBoard[action.cellIndex] === 0) {
