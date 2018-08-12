@@ -1,12 +1,16 @@
-import { SudokuGame } from '../store/SudokuStoreTypes';
+import { SudokuGame, Store } from '../store/SudokuStoreTypes';
 
-export interface RequestNewGameAction {
-    type: 'REQUEST_NEW_GAME';
+export interface GetGameAction {
+    type: 'GET_GAME';
 }
 
-export interface RequestNewGameSuccessfulAction {
-    type: 'REQUEST_NEW_GAME_SUCCESSFUL';
+export interface GetGameSuccessfulAction {
+    type: 'GET_GAME_SUCCESSFUL';
     game: SudokuGame;
+}
+
+export interface FetchingFailedAction {
+    type: 'FETCHING_FAILED';
 }
 
 export interface CheckSolutionAction {
@@ -18,12 +22,12 @@ export interface CheckSolutionSuccessfulAction {
     result: string;
 }
 
-export interface RevealCellValueAction {
-    type: 'REVEAL_CELL_VALUE';
+export interface GetCellValueAction {
+    type: 'GET_CELL_VALUE';
 }
 
-export interface RevealCellValueSuccessfulAction {
-    type: 'REVEAL_CELL_VALUE_SUCCESSFUL';
+export interface GetCellValueSuccessfulAction {
+    type: 'GET_CELL_VALUE_SUCCESSFUL';
     cellIndex: number;
     cellValue: number;
 }
@@ -43,13 +47,19 @@ export interface SetMessageAction {
     message: string;
 }
 
+export interface SetLanguageAction {
+    type: 'SET_LANGUAGE';
+    language: string;
+}
+
 export type Action =
-    | RequestNewGameAction
-    | RequestNewGameSuccessfulAction
+    | GetGameAction
+    | GetGameSuccessfulAction
+    | FetchingFailedAction
     | CheckSolutionAction
     | CheckSolutionSuccessfulAction
-    | RevealCellValueAction
-    | RevealCellValueSuccessfulAction
+    | GetCellValueAction
+    | GetCellValueSuccessfulAction
     | SelectCellAction
     | SetCellValueAction
     | SetMessageAction;
@@ -57,4 +67,8 @@ export type Action =
 export interface SolutionCheckResult {
     isComplete: boolean;
     isValid: boolean;
+}
+
+export interface ThunkedAction<TAction> {
+    (dispatch: (action: TAction) => void, getState: () => Store): void;
 }

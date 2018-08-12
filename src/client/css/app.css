@@ -5,17 +5,70 @@
     justify-content: center;
 }
 
-.board {
+.container__loading_spinner {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     display: flex;
+    align-items: center;
     justify-content: center;
+}
+
+.board {
+    position: relative;
+    display: flex;
     border: 2px solid black;
+    flex-wrap: wrap;
+    width: 468px;
 }
 
 .board__cell {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid grey;
-    width: 25px;
-    height: 25px;
+    border: 1px solid rgba(128, 128, 128, 0.3);
+    border-style: inset;
+    width: 50px;
+    height: 50px;
+    font-size: 25px;
+}
+
+.board__cell-focused {
+    background-color: rgb(128, 225, 238);
+    background-clip: content-box;
+}
+
+.board__cell-blocked {
+    cursor: not-allowed;
+    font-weight: bold;
+}
+
+.board__cell-odd_square {
+    background-color: pink;
+}
+
+.controls {
+    margin-top: 25px;
+}
+
+.controls__button {
+    padding: 10px;
+    margin: 0 5px;
+    font-size: 17px;
+    border-radius: 5px;
+    color: white;
+    background: #55acee;
+    outline: none;
+    cursor: pointer;
+}
+
+.controls__button:disabled {
+    background-color: lightgrey;
+}
+
+.message {
+    margin-top: 25px;
+    font-size: 35px;
 }

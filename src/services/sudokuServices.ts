@@ -1,12 +1,11 @@
 import { SolutionCheckResult, SudokuGame } from '../models/types';
-const gameBoardsList = require('../models/gameBoards');
-const gameBoardsSolutionsList = require('../models/gameBoardsSolutions');
+const gamesList = require('../models/gameBoards');
 
 class SudokuService {
     public getNewBoard(playedGamesIDs: number[] | null = null): SudokuGame {
         const gamesList: SudokuGame[] = this._getGamesList();
 
-        if (playedGamesIDs === null || playedGamesIDs.length === 0) {
+        if (playedGamesIDs === null || playedGamesIDs.length === gamesList.length) {
             return gamesList[Math.floor(Math.random() * gamesList.length)];
         }
 
@@ -16,19 +15,18 @@ class SudokuService {
     }
 
     public checkSolution(game: SudokuGame): SolutionCheckResult {
-        const solution: SudokuGame = this._getSolution(game.id);
-        const boardSize = solution.board.length;
+        const solution = this._getGame(game.id).solution;
+        const boardSize = solution.length;
 
-        let solutionCheckResult = {
+        const solutionCheckResult = {
             isComplete: true,
-            isValid: true,
+            isValid: true
         };
 
         for (let cellIndex = 0; cellIndex < boardSize; cellIndex++) {
             if (game.board[cellIndex] === 0) {
                 solutionCheckResult.isComplete = false;
-            }
-            if (game.board[cellIndex] !== solution.board[cellIndex]) {
+            } else if (game.board[cellIndex] !== solution[cellIndex]) {
                 solutionCheckResult.isValid = false;
             }
         }
@@ -37,23 +35,23 @@ class SudokuService {
     }
 
     public getCellValue(gameId: number, cellIndex: number): number {
-        const solution: SudokuGame = this._getSolution(gameId);
+        const game: SudokuGame = this._getGame(gameId);
 
-        return solution.board[cellIndex];
+        return game.solution[cellIndex];
     }
 
     private _getGamesList(): SudokuGame[] {
-        return gameBoardsList;
+        return gamesList;
     }
 
-    private _getSolution(id: number): SudokuGame {
-        const gameBoardSolution = gameBoardsSolutionsList.find((solution: SudokuGame) => solution.id === id);
+    private _getGame(id: number): SudokuGame {
+        const game = gamesList.find((game: SudokuGame) => game.id === id);
 
-        if (gameBoardSolution) {
-            return gameBoardSolution;
+        if (game) {
+            return game;
         }
 
-        throw new Error('Поле с указанным ID не найдено.');
+        throw new Error();
     }
 }
 

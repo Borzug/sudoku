@@ -7,6 +7,8 @@ export interface SudokuGame {
 
 export interface Store {
     isLoading: boolean;
+    isFetching: boolean;
+    initialBoard: number[] | null;
     currentGame: SudokuGame | null;
     playedGamesIDs: number[];
     focusedCellIndex: number | null;

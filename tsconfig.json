@@ -16,7 +16,8 @@
         "sourceMap": true,
         "suppressImplicitAnyIndexErrors": true,
         "target": "ES6",
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "resolveJsonModule": true
     },
     "exclude": ["node_modules", "public", "dist"]
 }

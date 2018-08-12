@@ -6,10 +6,12 @@ import { Store } from './SudokuStoreTypes';
 
 export const initialState: Store = {
     isLoading: false,
+    isFetching: false,
+    initialBoard: null,
     currentGame: null,
     playedGamesIDs: [],
     focusedCellIndex: null,
-    message: '',
+    message: ''
 };
 
 function configureStore() {

@@ -6,4 +6,5 @@ export interface SolutionCheckResult {
 export interface SudokuGame {
     id: number;
     board: number[];
+    solution: number[];
 }

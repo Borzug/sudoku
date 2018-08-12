@@ -1,27 +1,36 @@
-import { Response, Request, NextFunction } from 'express';
+import { Response, Request } from 'express';
 const express = require('express');
 const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser');
 
 import { service } from './services/sudokuServices';
-
-app.use(
-    (req: Request, res: Response, next: NextFunction): void => {
-        res.header('Content-Type', 'application/json');
-        next();
-    },
-);
+import { GET_GAME, CHECK_SOLUTION, GET_CELL_VALUE } from './routes';
 
 app.use(bodyParser.json());
 
 app.use(cors());
 
-app.post('/', (req: Request, res: Response) => {
-    console.log(req.body);
+app.post(GET_GAME, (req: Request, res: Response) => {
     const playedGamesList = req.body;
     const board = service.getNewBoard(playedGamesList);
-    res.send(board);
+
+    res.status(200).json(board);
+});
+
+app.post(CHECK_SOLUTION, (req: Request, res: Response) => {
+    const game = req.body;
+    const solutionCheckResult = service.checkSolution(game);
+
+    res.status(200).json(solutionCheckResult);
+});
+
+app.post(GET_CELL_VALUE, (req: Request, res: Response) => {
+    const gameId = req.body.gameId;
+    const cellIndex = req.body.cellIndex;
+    const cellValue = service.getCellValue(gameId, cellIndex);
+
+    res.status(200).json(cellValue);
 });
 
 app.listen(3000, () => {

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import i18next from 'i18next';
 
 import { Board } from '../Board';
 import { Controls } from '../Controls';
@@ -12,29 +12,30 @@ import { Props, PropsUpdaters } from './types';
 
 class AppContainer extends React.Component<Props & PropsUpdaters> {
     componentDidMount() {
-        this.props.actions.requestBoard();
+        this.props.getGame();
     }
 
     public render() {
         return (
-            <div>
-                {this.props.isLoading ? (
-                    <div>Загрузка</div>
-                ) : (
-                    <div className="container">
-                        {console.log('Container re-render check!')}
-                        <Header
-                            headerText={
-                                this.props.currentGame
-                                    ? `Загружена доска №${this.props.currentGame.id + 1}`
-                                    : 'Игра загружается.'
-                            }
-                        />
-                        <Board />
-                        <Controls requestNewGame={this.props.actions.requestBoard} />
-                        <Message message={'Тест'} />
-                    </div>
-                )}
+            <div className={'container'}>
+                <Header
+                    headerText={this.props.currentGame && i18next.t('gameName', { gameId: this.props.currentGame.id })}
+                />
+                <Board>
+                    {this.props.isLoading && (
+                        <div className="container__loading_spinner">
+                            <img src={'https://loading.io/spinners/azure/index.azure-round-loader.svg'} />
+                        </div>
+                    )}
+                </Board>
+
+                <Controls
+                    isDisabled={this.props.isFetching}
+                    getGame={this.props.getGame}
+                    checkSolution={this.props.checkSolution}
+                    getCellValue={this.props.getCellValue}
+                />
+                <Message message={this.props.message} />
             </div>
         );
     }
@@ -43,22 +44,17 @@ class AppContainer extends React.Component<Props & PropsUpdaters> {
 function mapState(state: Store): Props {
     return {
         isLoading: state.isLoading,
+        isFetching: state.isFetching,
         currentGame: state.currentGame,
-    };
-}
-
-function mapDispatch(dispatch: Dispatch): PropsUpdaters {
-    return {
-        actions: bindActionCreators(
-            {
-                requestBoard: actionCreators.requestBoardAction,
-            },
-            dispatch,
-        ),
+        message: state.message
     };
 }
 
 export default connect(
     mapState,
-    mapDispatch,
+    {
+        getGame: actionCreators.getGameAction,
+        checkSolution: actionCreators.checkSolutionAction,
+        getCellValue: actionCreators.getCellValueAction
+    }
 )(AppContainer);

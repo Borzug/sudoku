@@ -1,73 +1,73 @@
-import { Dispatch } from 'redux';
+import i18next from 'i18next';
+
 import { Store, SudokuGame } from '../store/SudokuStoreTypes';
-import { HOST } from '../appRouter';
-import { Action, SelectCellAction, SetCellValueAction, SolutionCheckResult } from './types';
+
+import { Action, SelectCellAction, SetCellValueAction, SolutionCheckResult, ThunkedAction } from './types';
+import { HOST, GET_GAME, GET_CELL_VALUE, CHECK_SOLUTION } from '../../routes';
 
 const requestHeaders = {
     Accept: 'application/json, text/plain, */*',
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json'
 };
 
 export const actionCreators = {
-    requestBoardAction: () => (dispatch: Dispatch<Action>, getState: () => Store) => {
-        dispatch({ type: 'REQUEST_NEW_GAME' });
+    getGameAction: (): ThunkedAction<Action> => (dispatch, getState: () => Store) => {
+        dispatch({ type: 'GET_GAME' });
 
-        fetch(`${HOST}`, {
-            method: 'post',
+        fetch(getUrl(GET_GAME), {
+            method: 'POST',
             headers: requestHeaders,
-            body: JSON.stringify(getState().playedGamesIDs),
+            body: JSON.stringify(getState().playedGamesIDs)
         })
             .then(response => response.json())
-            .then((game: SudokuGame) => {
-                console.log(game);
-                dispatch({ type: 'REQUEST_NEW_GAME_SUCCESSFUL', game });
-            })
-            .catch(error => {
-                console.log(error);
-            });
+            .then((game: SudokuGame) => dispatch({ type: 'GET_GAME_SUCCESSFUL', game }))
+            .catch(() => dispatch({ type: 'FETCHING_FAILED' }));
     },
 
     selectCellAction: (cellIndex: number): SelectCellAction => ({
         type: 'SELECT_CELL',
-        cellIndex,
+        cellIndex
     }),
 
     setCellValueAction: (cellValue: number): SetCellValueAction => ({ type: 'SET_CELL_VALUE', cellValue }),
 
-    revealCellValueAction: () => (dispatch: Dispatch<Action>, state: Store) => {
-        if (
-            state.focusedCellIndex === null ||
-            (state.currentGame && state.currentGame.board[state.focusedCellIndex] !== 0)
-        ) {
+    getCellValueAction: (): ThunkedAction<Action> => (dispatch, getState: () => Store) => {
+        const state = getState();
+        if (state.focusedCellIndex === null) {
             return;
         }
 
         if (state.currentGame && state.focusedCellIndex !== null) {
-            fetch(`${HOST}/revealcell?gameId=${state.currentGame.id}&cellIndex=${state.focusedCellIndex}`)
+            fetch(getUrl(GET_CELL_VALUE), {
+                method: 'POST',
+                headers: requestHeaders,
+                body: JSON.stringify({
+                    gameId: state.currentGame!.id,
+                    cellIndex: state.focusedCellIndex
+                })
+            })
                 .then(response => response.json())
-                .then((cellValue: number) => {
+                .then((cellValue: number) =>
                     dispatch({
                         cellValue,
                         cellIndex: state.focusedCellIndex as number,
-                        type: 'REVEAL_CELL_VALUE_SUCCESSFUL',
-                    });
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+                        type: 'GET_CELL_VALUE_SUCCESSFUL'
+                    })
+                )
+                .catch(() => dispatch({ type: 'FETCHING_FAILED' }));
         }
     },
 
-    checkSolutionAction: () => (dispatch: Dispatch<Action>, getState: () => Store) => {
+    checkSolutionAction: (): ThunkedAction<Action> => (dispatch, getState: () => Store) => {
         dispatch({ type: 'CHECK_SOLUTION' });
 
         const game = getState().currentGame;
         const gameId = game ? game.id : null;
 
-        fetch(`${HOST}/check`, {
+        fetch(getUrl(CHECK_SOLUTION), {
             headers: requestHeaders,
             method: 'POST',
-            body: JSON.stringify(game),
+            body: JSON.stringify(game)
         })
             .then(response => response.json())
             .then((result: SolutionCheckResult) => {
@@ -75,18 +75,20 @@ export const actionCreators = {
                 let message = '';
                 if (currentGame && currentGame.id === gameId) {
                     if (result.isValid && result.isComplete) {
-                        message = 'Поздравляю Вас! Вы правильно решили Судоку!';
+                        message = i18next.t('messages.solved');
                     } else if (result.isValid && !result.isComplete) {
-                        message = 'В решении нет ошибок.';
+                        message = i18next.t('messages.valid');
                     } else {
-                        message = 'В решении есть ошибки';
+                        message = i18next.t('messages.invalid');
                     }
 
                     dispatch({ type: 'CHECK_SOLUTION_SUCCESSFUL', result: message });
                 }
             })
-            .catch(error => {
-                console.log(error);
-            });
-    },
+            .catch(() => dispatch({ type: 'FETCHING_FAILED' }));
+    }
 };
+
+function getUrl(path: string) {
+    return `${HOST}${path}`;
+}

@@ -1,5 +1,8 @@
-import { Action } from '../../actions/types';
+import { ThunkedAction, GetGameAction, CheckSolutionAction, GetCellValueAction } from '../../actions/types';
 
 export interface Props {
-    requestNewGame: () => Action;
+    isDisabled: boolean;
+    getGame: () => ThunkedAction<GetGameAction>;
+    checkSolution: () => ThunkedAction<CheckSolutionAction>;
+    getCellValue: () => ThunkedAction<GetCellValueAction>;
 }
