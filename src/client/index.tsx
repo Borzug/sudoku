@@ -1,6 +1,14 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 
-import { Sudoku } from './components/Sudoku';
+import './css/app.css';
+import { AppContainer } from './components/AppContainer';
+import { store } from './store/SudokuStore';
+import { Provider } from 'react-redux';
 
-ReactDOM.render(<Sudoku />, document.getElementById('root'));
+render(
+    <Provider store={store}>
+        <AppContainer />
+    </Provider>,
+    document.getElementById('root'),
+);

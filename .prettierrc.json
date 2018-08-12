@@ -21,6 +21,12 @@
             }
         },
         {
+            "files": ["*.json"],
+            "options": {
+                "printWidth": 1000
+            }
+        },
+        {
             "files": ["package.json"],
             "options": {
                 "printWidth": 240

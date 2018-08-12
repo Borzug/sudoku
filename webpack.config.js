@@ -4,9 +4,11 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './src/client/index.tsx',
+    entry: {
+        app: './src/client/index.tsx',        
+    },
     output: {
-        filename: 'dist/bundle.js',
+        filename: './dist/[name].bundle.js',
         path: path.resolve(__dirname, 'dist'),
     },
     module: {
@@ -19,14 +21,6 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader'],
-            },
-            {
-                test: /\.(png|svg|jpg|gif)$/,
-                use: ['file-loader'],
-            },
-            {
-                test: /\.(woff|woff2|eot|ttf|otf)$/,
-                use: ['file-loader'],
             },
             { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
         ],
