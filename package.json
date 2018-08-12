@@ -9,7 +9,7 @@
         "build": "webpack --config webpack.prod.config.js",
         "start": "run-p --race start:*",
         "start:client": "webpack-dev-server --open --config webpack.dev.config.js",
-        "start:server": "./node_modules/.bin/ts-node -- ./src/server.ts",
+        "start:server": "./node_modules/.bin/ts-node -- ./src/server/server.ts",
         "g:c": "node ./generators/component"
     },
     "repository": {
@@ -21,7 +21,6 @@
     "bugs": {
         "url": "https://github.com/Borzug/sudoku/issues"
     },
-    "homepage": "https://github.com/Borzug/sudoku#readme",
     "dependencies": {
         "@types/classnames": "^2.2.6",
         "@types/i18next": "^8.4.4",

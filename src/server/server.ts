@@ -5,7 +5,7 @@ const app = express();
 const bodyParser = require('body-parser');
 
 import { service } from './services/sudokuServices';
-import { GET_GAME, CHECK_SOLUTION, GET_CELL_VALUE } from './routes';
+import { GET_GAME, CHECK_SOLUTION, GET_CELL_VALUE } from '../routes';
 
 app.use(bodyParser.json());
 
