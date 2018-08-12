@@ -1,4 +1,5 @@
 import { SudokuGame } from '../../store/SudokuStoreTypes';
+import { ThunkedAction, SetCellValueAction, SelectCellAction } from '../../actions/types';
 
 export interface Props {
     initialBoard: number[] | null;
@@ -7,5 +8,6 @@ export interface Props {
 }
 
 export interface PropsUpdaters {
-    actions: any;
+    selectCell: () => ThunkedAction<SelectCellAction>;
+    setCellValue: (value: number) => ThunkedAction<SetCellValueAction>;
 }

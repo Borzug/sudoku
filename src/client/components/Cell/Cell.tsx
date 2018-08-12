@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Props } from './types';
 import classnames from 'classnames';
 
-const Cell: React.StatelessComponent<Props> = ({ value, cellIndex, isFocused, isBlocked, selectCell }) => {
+const Cell: React.SFC<Props> = ({ value, cellIndex, isFocused, isBlocked, selectCell }) => {
     return (
         <div
             className={classnames('board__cell', {

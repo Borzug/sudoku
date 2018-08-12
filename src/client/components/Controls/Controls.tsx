@@ -3,7 +3,7 @@ import i18next from 'i18next';
 
 import { Props } from './types';
 
-const Controls: React.StatelessComponent<Props> = ({ isDisabled, getGame, checkSolution, getCellValue }) => (
+const Controls: React.SFC<Props> = ({ isDisabled, getGame, checkSolution, getCellValue }) => (
     <div className="controls">
         <button className="controls__button controls__button-new_game" onClick={getGame} disabled={isDisabled}>
             {i18next.t('controls.newGame')}

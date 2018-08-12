@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Dispatch, bindActionCreators } from 'redux';
 
 import { Store } from '../../store/SudokuStoreTypes';
 import { Props, PropsUpdaters } from './types';
@@ -22,7 +21,7 @@ class Board extends React.Component<Props & PropsUpdaters> {
             return;
         }
 
-        this.props.actions.setCellValue(key);
+        this.props.setCellValue(key);
     };
 
     render() {
@@ -32,12 +31,12 @@ class Board extends React.Component<Props & PropsUpdaters> {
                     <div className="board">
                         {this.props.currentGame.board.map((cell, index) => (
                             <Cell
-                                key={`${index} + ${cell}`}
+                                key={index}
                                 value={cell}
                                 cellIndex={index}
                                 isFocused={index === this.props.focusedCellIndex}
-                                isBlocked={this.props.initialBoard ? this.props.initialBoard[index] !== 0 : false}
-                                selectCell={this.props.actions.selectCell}
+                                isBlocked={this.props.initialBoard![index] !== 0}
+                                selectCell={this.props.selectCell}
                             />
                         ))}
 
@@ -57,19 +56,10 @@ function mapState(state: Store): Props {
     };
 }
 
-function mapDispatch(dispatch: Dispatch): PropsUpdaters {
-    return {
-        actions: bindActionCreators(
-            {
-                selectCell: actionCreators.selectCellAction,
-                setCellValue: actionCreators.setCellValueAction
-            },
-            dispatch
-        )
-    };
-}
-
 export default connect(
     mapState,
-    mapDispatch
+    {
+        selectCell: actionCreators.selectCellAction,
+        setCellValue: actionCreators.setCellValueAction
+    }
 )(Board);

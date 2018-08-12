@@ -46,11 +46,6 @@ export interface SetMessageAction {
     message: string;
 }
 
-export interface SetLanguageAction {
-    type: 'SET_LANGUAGE';
-    language: string;
-}
-
 export type Action =
     | GetGameAction
     | GetGameSuccessfulAction
