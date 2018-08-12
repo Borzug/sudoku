@@ -1,0 +1,7 @@
+{
+    "name": "Sudoku",
+    "description": "",
+    "repository": "https://github.com/Borzug/sudoku",
+    "logo": "",
+    "keywords": ["node", "express"]
+}
