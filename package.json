@@ -6,10 +6,10 @@
     "homepage": "http://borzug.github.io/sudoku",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "react-scripts-ts start",
-        "build": "concurrently \"react-scripts-ts build\" \"tsc -p server\"",
+        "build": "webpack --config webpack.prod.config.js",
+        "start": "run-p --race start:*",
         "start:client": "webpack-dev-server --open --config webpack.dev.config.js",
-        "start:server": "./node_modules/.bin/ts-node -- ./src/server/server.ts"
+        "start:server": "node ./src/server/server.js"
     },
     "repository": {
         "type": "git",
