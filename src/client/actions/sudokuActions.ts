@@ -32,12 +32,12 @@ export const actionCreators = {
     setCellValueAction: (cellValue: number): SetCellValueAction => ({ type: 'SET_CELL_VALUE', cellValue }),
 
     getCellValueAction: (): ThunkedAction<Action> => (dispatch, getState: () => Store) => {
-        dispatch({ type: 'GET_CELL_VALUE' });
-
         const state = getState();
         if (state.focusedCellIndex === null) {
             return;
         }
+
+        dispatch({ type: 'GET_CELL_VALUE' });
 
         if (state.currentGame) {
             fetch(getUrl(GET_CELL_VALUE), {
