@@ -4,11 +4,11 @@ var express = require('express');
 var cors = require('cors');
 var app = express();
 var bodyParser = require('body-parser');
-var sudokuServices_1 = require('./services/sudokuServices');
-var routes_1 = require('../routes');
+var sudokuServices_1 = require('.src/server/services/sudokuServices');
+var routes_1 = require('.src/routes');
 app.use(bodyParser.json());
 app.use(cors());
-app.use(express.static(__dirname + '../../dist/'));
+app.use(express.static('dist'));
 
 app.post(routes_1.GET_GAME, function(req, res) {
     var playedGamesList = req.body;
@@ -28,5 +28,5 @@ app.post(routes_1.GET_CELL_VALUE, function(req, res) {
 });
 var PORT = process.env.PORT || 3000;
 app.listen(PORT, function() {
-    console.log('Example app listening on port 3000!\n');
+    console.log('Example app listening on port ' + PORT + '!\n');
 });
