@@ -32,6 +32,8 @@ export const actionCreators = {
     setCellValueAction: (cellValue: number): SetCellValueAction => ({ type: 'SET_CELL_VALUE', cellValue }),
 
     getCellValueAction: (): ThunkedAction<Action> => (dispatch, getState: () => Store) => {
+        dispatch({ type: 'GET_CELL_VALUE' });
+
         const state = getState();
         if (state.focusedCellIndex === null) {
             return;
