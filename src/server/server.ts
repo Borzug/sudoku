@@ -11,6 +11,8 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
+app.use(express.static(__dirname + './../../dist/'));
+
 app.post(GET_GAME, (req: Request, res: Response) => {
     const playedGamesList = req.body;
     const board = service.getNewBoard(playedGamesList);
