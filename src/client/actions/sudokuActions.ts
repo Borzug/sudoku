@@ -3,7 +3,7 @@ import i18next from 'i18next';
 import { Store, SudokuGame } from '../store/SudokuStoreTypes';
 
 import { Action, SelectCellAction, SetCellValueAction, SolutionCheckResult, ThunkedAction } from './types';
-import { HOST, GET_GAME, GET_CELL_VALUE, CHECK_SOLUTION } from '../../routes';
+import { GET_GAME, GET_CELL_VALUE, CHECK_SOLUTION } from '../../routes';
 
 const requestHeaders = {
     Accept: 'application/json, text/plain, */*',
@@ -88,5 +88,5 @@ export const actionCreators = {
 };
 
 function getUrl(path: string) {
-    return `${HOST}${path}`;
+    return `${path}`;
 }
