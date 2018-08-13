@@ -8,7 +8,8 @@ var sudokuServices_1 = require('./services/sudokuServices');
 var routes_1 = require('../routes');
 app.use(bodyParser.json());
 app.use(cors());
-app.use(express.static(__dirname + './../../dist/'));
+app.use(express.static(__dirname + '../../dist/'));
+
 app.post(routes_1.GET_GAME, function(req, res) {
     var playedGamesList = req.body;
     var board = sudokuServices_1.service.getNewBoard(playedGamesList);
