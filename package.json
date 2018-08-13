@@ -8,6 +8,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "webpack --config webpack.prod.config.js",
         "start": "node ./src/server/server.js",
+        "postinstall": "npm run build",
         "start:client": "webpack-dev-server --open --config webpack.dev.config.js",
         "start:server": "node ./src/server/server.js"
     },
