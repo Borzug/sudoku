@@ -4,7 +4,7 @@ var express = require('express');
 var cors = require('cors');
 var app = express();
 var bodyParser = require('body-parser');
-var sudokuServices_1 = require('.src/server/services/sudokuServices');
+var sudokuServices_1 = require('./src/server/services/sudokuServices');
 var routes_1 = require('.src/routes');
 app.use(bodyParser.json());
 app.use(cors());
