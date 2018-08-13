@@ -6,8 +6,8 @@
     "homepage": "http://borzug.github.io/sudoku",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "webpack --config webpack.prod.config.js",
-        "start": "ts-node ./src/server/server.ts",
+        "start": "react-scripts-ts start",
+        "build": "concurrently \"react-scripts-ts build\" \"tsc -p server\"",
         "start:client": "webpack-dev-server --open --config webpack.dev.config.js",
         "start:server": "./node_modules/.bin/ts-node -- ./src/server/server.ts"
     },
@@ -29,11 +29,13 @@
         "@types/redux": "^3.6.0",
         "@types/redux-thunk": "^2.1.0",
         "classnames": "^2.2.6",
+        "concurrently": "^3.6.1",
         "cors": "^2.8.4",
         "i18next": "^11.6.0",
         "react": "^16.4.2",
         "react-dom": "^16.4.2",
         "react-redux": "^5.0.7",
+        "react-scripts-ts": "^2.17.0",
         "redux": "^4.0.0",
         "redux-thunk": "^2.3.0"
     },
