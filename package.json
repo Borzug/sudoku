@@ -7,10 +7,9 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "webpack --config webpack.prod.config.js",
-        "start": "run-p --race start:*",
+        "start": "./node_modules/.bin/ts-node -- ./src/server/server.ts",
         "start:client": "webpack-dev-server --open --config webpack.dev.config.js",
-        "start:server": "./node_modules/.bin/ts-node -- ./src/server/server.ts",
-        "g:c": "node ./generators/component"
+        "start:server": "./node_modules/.bin/ts-node -- ./src/server/server.ts"        
     },
     "repository": {
         "type": "git",
