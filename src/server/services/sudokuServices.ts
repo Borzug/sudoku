@@ -15,18 +15,15 @@ class SudokuService {
     }
 
     public checkSolution(game: SudokuGame): SolutionCheckResult {
-        const solution = this._getGame(game.id).solution;
-        const boardSize = solution.length;
-
         const solutionCheckResult = {
             isComplete: true,
             isValid: true
         };
 
-        for (let cellIndex = 0; cellIndex < boardSize; cellIndex++) {
+        for (let cellIndex = 0; cellIndex < game.solution.length; cellIndex++) {
             if (game.board[cellIndex] === 0) {
                 solutionCheckResult.isComplete = false;
-            } else if (game.board[cellIndex] !== solution[cellIndex]) {
+            } else if (game.board[cellIndex] !== game.solution[cellIndex]) {
                 solutionCheckResult.isValid = false;
             }
         }
